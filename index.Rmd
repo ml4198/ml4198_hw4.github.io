@@ -1,0 +1,47 @@
+---
+title: "Matt's Website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# All about me
+
+This is my website. It is full of things about me, Matt.
+
+## Meet Bailey
+
+This is my dog, Bailey. She is wearing a doughnut.
+
+![](images/bailey.jpeg)
+
+## Things I do {.tabset}
+
+### Work
+
+[Columbia Cardiology Fellowship](https://www.columbiacardiology.org/education)
+
+<div class="vid_container">
+  <iframe 
+    src="https://www.youtube.com/embed/THJKBdBa7IU" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+    </iframe>
+</div>
+
+### Dad
+
+<img src="images/kids.jpeg" style="width:75%">
+
+### Hobbies
+
+<div class="vid_container">
+  <iframe 
+    src="https://www.youtube.com/embed/oHg5SJYRHA0"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
