@@ -1,0 +1,145 @@
+---
+title: "Matt Lawlor's CV"
+author: Matt Lawlor
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_resume:
+    css: ['css/custom_resume.css', 'css/styles.css', 'resume']
+    # set it to true for a self-contained HTML page but it'll take longer to render
+    self_contained: true
+---
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+library(tidyverse)
+library(glue)
+
+# Set this to true to have links turned into footnotes at the end of the document
+PDF_EXPORT <- FALSE
+
+# Holds all the links that were inserted for placement at the end
+links <- c()
+
+source('parsing_functions.R') # Functions for building sections from CSV data
+source('common_variables.R')  # Small variables for non-csv data such as intro text
+
+# First let's get the data, filtering to only the items tagged as
+# Resume items
+position_data <- read_csv('cv.csv')
+```
+
+Aside
+================================================================================
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+
+- <i class="fa fa-envelope"></i> lawlormk@gmail.com
+- <i class="fa fa-github"></i> github.com/ml4198
+- <i class="fa fa-phone"></i> (617) 816-4195
+
+
+Main
+================================================================================
+
+Matthew Lawlor {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+cat(sanitize_links(intro_text))
+```
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('education')
+```
+
+Post-Graduate Training {data-icon=stethoscope data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('post_graduate_training')
+```
+
+Other Professional Positions {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('other_professional_positions')
+```
+
+Professional Societies {data-icon=user-tie}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('professional_societies')
+```
+
+Honors {data-icon=award}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('honors')
+```
+
+Teaching {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('teaching')
+```
+
+Manuscripts {data-icon=newspaper}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('manuscripts')
+```
+
+Conference Presentations {data-icon=file-powerpoint}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('conference_presentations')
+```
+
+Proceedings {data-icon=thumbtack}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('proceedings')
+```
+
+Chapters {data-icon=book}
+--------------------------------------------------------------------------------
+
+```{r}
+position_data %>% print_section('chapters')
+```
+
+
+```{r}
+if(PDF_EXPORT){
+  cat("
+  
+Links {data-icon=link}
+--------------------------------------------------------------------------------
+
+<br>
+
+
+")
+  
+  walk2(links, 1:length(links), function(link, index){
+    print(glue('{index}. {link}'))
+  })
+}
+```

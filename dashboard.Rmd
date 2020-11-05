@@ -1,0 +1,40 @@
+---
+title: "Dashboard"
+author: "Matthew Lawlor"
+date: "11/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+data("ny_noaa")
+library(plotly)
+```
+
+```{r}
+# tidy data set, from HW3
+ny_noaa_tidy =
+ny_noaa %>% 
+  separate(date, into = c("year", "mon", "day")) %>% 
+  mutate(
+    prcp = prcp / 100,
+    snow = snow / 10,
+    snwd = snwd /10,
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    tmax = tmax / 10,
+    tmin = tmin / 10,
+    mon = as.integer(mon)
+  ) 
+```
+
+```{r}
+ny_noaa_tidy %>% 
+  group_by(mon) %>% 
+  summarize(mean_prcp = mean(prcp)) %>% 
+  plot_ly(
+    x = ~mon, y = ~mean_prcp, color = ~mon, type = "bar", colors  = "viridis"
+  )
+```
+
