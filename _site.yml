@@ -5,6 +5,8 @@ navbar:
   right:
     - text: "CV"
       href: cv-1.0/cv.html
+    - text: "Dashboard"
+      href: dashboard.html
     - icon: fa-envelope fa-lg
       href: mailto:<mkl9004@nyp.org>
     - icon: fa-github fa-lg

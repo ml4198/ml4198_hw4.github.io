@@ -1,0 +1,75 @@
+---
+title: "Dashboard"
+author: "Matthew Lawlor"
+date: "11/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+data("ny_noaa")
+library(plotly)
+library(flexdashboard)
+```
+
+```{r}
+# tidy data set, from HW3
+ny_noaa_tidy =
+ny_noaa %>% 
+  separate(date, into = c("year", "mon", "day")) %>% 
+  mutate(
+    prcp = prcp / 100,
+    snow = snow / 10,
+    snwd = snwd /10,
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    tmax = tmax / 10,
+    tmin = tmin / 10,
+    day = as.integer(day),
+    mon = as.integer(mon),
+    year = as.integer(year)
+  ) %>% 
+  filter(year == 2010) %>%
+  mutate(
+    mon = recode(mon, `1` = "Jan", `2`= "Feb", `3` = "Mar", `4` = "Apr", `5` = "May", `6` = "Jun", `7` = "Jul", `8` = "Aug", `9` = "Sep", `10` = "Oct", `11` = "Nov", `12` = "Dec"),
+  ) 
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Precipitation by tmax in January and July, 2010
+
+```{r}
+ny_noaa_tidy %>% 
+  filter(mon == "Jan" | mon == "Jul") %>% 
+  plot_ly(
+    x = ~tmax, y = ~prcp, type = "scatter", mode = "markers", color = ~mon, text = ~mon, alpha = 0.5
+  )  
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Distribution of precipitation by month, 2010
+
+```{r}
+ny_noaa_tidy %>% 
+  mutate(mon = fct_inorder(mon)) %>%
+  plot_ly(
+    y = ~prcp, color = ~mon, type = "box", colors  = "viridis"
+  )
+```
+
+### Numbers of snow days by month, 2010
+
+```{r}
+ny_noaa_tidy %>% 
+  mutate(mon = fct_inorder(mon)) %>%
+  filter(snow > 0) %>%
+  group_by(mon) %>%
+  summarize(mean_snowdays = mean(day)) %>% 
+  plot_ly(x = ~mon, y  = ~mean_snowdays, color = ~mon, type = "bar", colors = "viridis")
+```
+
